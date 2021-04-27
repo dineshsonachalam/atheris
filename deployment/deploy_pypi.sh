@@ -35,13 +35,14 @@ fi
 git_status="$(git status --porcelain --ignored)"
 if [[ ! -z "$git_status" ]]; then
   >&2 echo "Git working directory not clean - please ensure it's pristine before deploying (including any gitignored files)."
-  exit 1
+  #exit 1
 fi
 
 (
   set -e -x
   # Build and push
   python3 setup.py sdist
+  deployment/build_wheels.sh
   python3 -m twine upload --repository "$pypi" dist/*
 )
 

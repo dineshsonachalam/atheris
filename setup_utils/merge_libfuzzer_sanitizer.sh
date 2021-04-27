@@ -23,7 +23,11 @@ tmp_sanitizer="$(mktemp --suffix=.a)"
 tmp_merged="$(mktemp --suffix=.so)"
 
 if [ -z "$CXX" ]; then
-  export CXX="clang++"
+  if which clang++ > /dev/null 2>&1; then
+    export CXX="clang++"
+  else
+    export CXX="g++"
+  fi
 fi
 
 cp "$sanitizer" "$tmp_sanitizer"
